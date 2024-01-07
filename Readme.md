@@ -56,7 +56,7 @@ Welcome to the Firebase Authentication Mini Project! This project showcases a ba
 
 To connect the project with Firebase, replace the placeholder in `app.js` with your Firebase project configuration.
 
-```javascript
+
 
 
 ## Contributions 🤝
