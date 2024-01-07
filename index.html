@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Singin</title>
+</head>
+
+<body>
+
+    <div class="main">
+        <form class="form" id="signin-form">
+            <p class="title">Signin</p>
+            <p class="message">Signin now and get full access to our app.</p>
+
+
+            <label>
+                <input required="" placeholder="" type="email" class="input" id="email" />
+                <span>Email</span>
+            </label>
+
+            <label>
+                <input required="" placeholder="" type="password" class="input" id="password" />
+                <span>Password</span>
+            </label>
+
+            <button class="submit" type="submit">Submit</button>
+            <p class="signin">If you have no acount ? <a href="/Register.html">Register</a></p>
+        </form>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBcjmY3PGWxiQvU5Qx_esjlN1oHK6fqtNs",
+            authDomain: "authentication-app-6b824.firebaseapp.com",
+            projectId: "authentication-app-6b824",
+            storageBucket: "authentication-app-6b824.appspot.com",
+            messagingSenderId: "817468141001",
+            appId: "1:817468141001:web:8d0913839df32243bd8c18"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        // user registeration
+        document.getElementById('signin-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed up 
+                    const user = userCredential.user;
+                    localStorage.setItem('userId', user.uid);
+                    console.log('User ID saved to local storage:', user.uid);
+                    set(ref(database, 'users/' + user.uid), {
+                        username: name,
+                        email: email
+                    })
+                    console.log(userCredential)
+                    alert("Loggedin successfully");
+                    window.location.href = "/Home.html";
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                    alert(errorMessage);
+                });
+        })
+    </script>
+
+</body>
+
+</html>
